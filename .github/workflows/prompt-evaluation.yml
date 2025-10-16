@@ -1,24 +1,28 @@
-name: "Prompt Evaluation"
+name: Prompt Evaluation
 
 on:
   pull_request:
     paths:
-      - "prompts/**"   # Run only when files in prompts/ change
+      - "prompts/**"   # triggers workflow only if prompts change
 
 jobs:
   evaluate:
     runs-on: ubuntu-latest
 
     permissions:
-      pull-requests: write   # Needed to comment on PRs
+      pull-requests: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run Promptfoo
-        uses: promptfoo/promptfoo-action@v1
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          # Optional: Path to your promptfoo config file
-          # config: '.github/workflows/prompt-evaluation.yml'
-'
+          node-version: "20"
+
+      - name: Install Promptful CLI
+        run: npm install -g @promptful/cli
+
+      - name: Run Promptful tests
+        run: promptful test prompts/
