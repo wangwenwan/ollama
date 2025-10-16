@@ -1,0 +1,24 @@
+name: "Prompt Evaluation"
+
+on:
+  pull_request:
+    paths:
+      - "prompts/**"   # Run only when files in prompts/ change
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write   # Needed to comment on PRs
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Promptfoo
+        uses: promptfoo/promptfoo-action@v1
+        with:
+          # Optional: Path to your promptfoo config file
+          # config: '.github/workflows/prompt-evaluation.yml'
+'
